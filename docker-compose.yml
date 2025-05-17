@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: ./backend
+    tty: true
+    ports:
+      - 8888:8888
+    environment:
+      FIRESTORE_EMULATOR_HOST: "firebase:8080"
+    volumes:
+      - ./backend:/app
+  firebase:
+    build: ./firebase
+    ports:
+      - 4000:4000
+      - 8080:8080
+    volumes:
+      - ./firebase/.firebaserc:/firebase/.firebaserc
+      - ./firebase/firebase.json:/firebase/firebase.json
+    tty: true
+    working_dir: /firebase
+    command: firebase emulators:start
